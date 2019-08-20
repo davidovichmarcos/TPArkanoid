@@ -53,12 +53,6 @@ function Arkanoid(canvas) {
 	const VAUS_HEIGHT = 50;
 	const BULLET_SIZE = 30;
 	const BULLET_MAX_SPEED = 20;
-	var bricks = [
-		[1, 1, 1, 1, 1],
-		[1, 1, 1, 1, 1],
-		[1, 1, 1, 1, 1],
-	];
-	
 	let Lives = 10;
 
 
@@ -85,7 +79,14 @@ function Arkanoid(canvas) {
 	}
 
 	this.createElements = function() {
-
+		
+		this.bricks = [];
+			for (let i = 0; i < 5; i++) {
+				this.bricks[i] = new Vaus( (i+1) * 200, 100, 150, 20);
+		
+				console.log(this.bricks[i].x);
+			}
+		
 		this.vaus = new Vaus(canvas.width / 2 - VAUS_WIDTH / 2, canvas.height - 150, VAUS_WIDTH, VAUS_HEIGHT);
 		this.bullet = new Bullet(canvas.width / 2, canvas.height / 2, BULLET_SIZE, Movement.NONE);
 	}
@@ -98,9 +99,12 @@ function Arkanoid(canvas) {
 	}
 
 	this.drawBricks = function() {
-		this.context.fillStyle = 'rgb(155,0,155)';
-		this.context.fillRect(this.vaus.x, this.vaus.y, this.vaus.width, this.vaus.height);
-	}
+			for (let i = 0; i < 5; i++) {
+				this.context.fillStyle = 'rgb(0,155,0)';
+				this.context.fillRect(this.bricks[i].x, this.bricks[i].y, this.bricks[i].width, this.bricks[i].height);
+			}
+		
+		}
 	this.drawVaus = function() {
 		this.context.fillStyle = 'rgb(155,110,5)';
 		this.context.fillRect(this.vaus.x, this.vaus.y, this.vaus.width, this.vaus.height);
@@ -219,7 +223,7 @@ function Arkanoid(canvas) {
 	this.setVausPosition = function(x) {
 		if (this.gameOver) return;
 		if(this.pause) {
-			this
+			return;
 		}
 		if (x < 0) x = 0;
 		if (x > canvas.width - this.vaus.width) x = canvas.width - this.vaus.width;
