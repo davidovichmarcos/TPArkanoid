@@ -186,9 +186,18 @@ function Arkanoid(canvas) {
 		
 		for (let i = 0; i < BRICK_QUANTITY; i++) {
 			if ((this.bullet.x + this.bullet.radius > this.bricks[i].x && this.bullet.x - this.bullet.radius < this.bricks[i].x + this.bricks[i].width) &&
-				(this.bullet.y + this.bullet.radius < this.bricks[i].y + BRICK_HEIGHT)) {
+				(this.bullet.y + this.bullet.radius - (BRICK_HEIGHT*2) < this.bricks[i].y )) {
 				console.log("Has Touched: brick "+i);
+				this.bricks[i] = [];
+				if (this.bullet.speed < BULLET_MAX_SPEED)
+					this.bullet.speed += 0.5;
+				if (this.bullet.dir & Movement.DOWN) {
+					this.bullet.dir = this.bullet.dir - Movement.DOWN + Movement.UP;
+				} else if (this.bullet.dir & Movement.UP) {
+					this.bullet.dir = this.bullet.dir - Movement.UP + Movement.DOWN;
+				}
 			}
+
 		}			
 	}
 	this.edgeCollisions = function () {
