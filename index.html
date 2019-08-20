@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Arkanoid JS</title>
+</head>
+<body>
+	<canvas width="1600" height="900" id="canvas"></canvas>
+	<script type="text/javascript" src="js/Arkanoid.js"></script>
+	<script type="text/javascript">
+		const canvas = document.getElementById('canvas');
+		const arkanoid = new Arkanoid(canvas);
+		arkanoid.init();
+	</script>
+</body>
+</html>
