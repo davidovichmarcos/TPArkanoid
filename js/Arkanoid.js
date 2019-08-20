@@ -53,6 +53,8 @@ function Arkanoid(canvas) {
 	const VAUS_HEIGHT = 50;
 	const BULLET_SIZE = 30;
 	const BULLET_MAX_SPEED = 20;
+	const BRICK_WIDTH = 150;
+	const BRICK_HEIGHT = 30;
 	let Lives = 10;
 
 
@@ -81,12 +83,9 @@ function Arkanoid(canvas) {
 	this.createElements = function() {
 		
 		this.bricks = [];
-			for (let i = 0; i < 5; i++) {
-				this.bricks[i] = new Vaus( (i+1) * 200, 100, 150, 20);
-		
-				console.log(this.bricks[i].x);
-			}
-		
+		for (let i = 0; i < 5; i++) {
+			this.bricks[i] = new Vaus( (i+1) * 200, 100, BRICK_WIDTH, BRICK_HEIGHT);
+		}
 		this.vaus = new Vaus(canvas.width / 2 - VAUS_WIDTH / 2, canvas.height - 150, VAUS_WIDTH, VAUS_HEIGHT);
 		this.bullet = new Bullet(canvas.width / 2, canvas.height / 2, BULLET_SIZE, Movement.NONE);
 	}
@@ -148,7 +147,15 @@ function Arkanoid(canvas) {
 			return;
 		}
 			
+		this.moveBullet();
+		this.vausCollision();
+		this.edgeCollisions();
 
+		
+	}
+	//bullet movement
+	this.moveBullet = function () {
+		
 		if (this.bullet.dir & Movement.RIGHT) 
 			this.bullet.x += this.bullet.speed;
 		else if (this.bullet.dir & Movement.LEFT) 
@@ -158,7 +165,10 @@ function Arkanoid(canvas) {
 			this.bullet.y -= this.bullet.speed;
 		else if (this.bullet.dir & Movement.DOWN) 
 			this.bullet.y += this.bullet.speed;
+	}
 
+	this.vausCollision = function () {
+		//Vaus collision
 		if ((this.bullet.x + this.bullet.radius > this.vaus.x && this.bullet.x - this.bullet.radius < this.vaus.x + this.vaus.width) &&
 			(this.bullet.y + (this.bullet.radius*2) > this.vaus.y)) {
 			if (this.bullet.speed < BULLET_MAX_SPEED)
@@ -169,7 +179,10 @@ function Arkanoid(canvas) {
 			 	this.bullet.dir = this.bullet.dir - Movement.UP + Movement.DOWN;
 			}
 		}
-
+				
+	}
+	this.edgeCollisions = function () {
+		//Edge canvas collisions
 		if (this.bullet.x - this.bullet.radius < 0) {
 			this.bullet.x = this.bullet.radius;
 			this.bullet.dir = this.bullet.dir - Movement.LEFT + Movement.RIGHT;
