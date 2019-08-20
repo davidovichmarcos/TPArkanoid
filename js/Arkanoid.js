@@ -55,8 +55,8 @@ function Arkanoid(canvas) {
 	const BULLET_MAX_SPEED = 20;
 	const BRICK_WIDTH = 150;
 	const BRICK_HEIGHT = 30;
-	const BRICK_QUANTITY = 5;
-	let Lives = 2;
+	const BRICK_QUANTITY = 7;
+	let Lives = 10;
 
 
 	this.init = function() {
